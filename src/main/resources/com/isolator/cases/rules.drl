@@ -1,0 +1,24 @@
+
+import com.isolator.cases.Writer;
+import com.isolator.cases.WriterInserted;
+import com.isolator.cases.ValidationUtils;
+
+rule "A Writer with a not empty firstName inserted"
+    when
+        $writer: Writer(
+            !ValidationUtils.isNullOrEmpty(memory)
+        )
+    then
+        System.out.println("A Writer with a not empty firstName inserted -> " + $writer);
+        insert(new WriterInserted($writer));
+end
+
+rule "remove A Writer firstName is empty"
+    when
+        $writer: WriterInserted(
+            !ValidationUtils.isNullOrEmpty(writer.memory)
+        )
+    then
+        retract($writer);
+        System.out.println("Removing a Writer -> " + $writer);
+end
