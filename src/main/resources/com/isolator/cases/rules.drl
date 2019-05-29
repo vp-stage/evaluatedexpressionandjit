@@ -1,13 +1,15 @@
 
+import com.isolator.cases.Transaction;
 import com.isolator.cases.Writer;
 import com.isolator.cases.WriterInserted;
 import com.isolator.cases.ValidationUtils;
 
 rule "A Writer with a not empty firstName inserted"
     when
+        $transaction: Transaction()
         $writer: Writer(
             !ValidationUtils.isNullOrEmpty(memory)
-        )
+        ) from $transaction.writers
     then
         System.out.println("A Writer with a not empty firstName inserted -> " + $writer);
         insert(new WriterInserted($writer));
