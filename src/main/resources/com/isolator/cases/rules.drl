@@ -4,18 +4,18 @@ import com.isolator.cases.Writer;
 import com.isolator.cases.WriterInserted;
 import com.isolator.cases.ValidationUtils;
 
-rule "A Writer with a not empty firstName inserted"
+rule "A Writer with a not empty memory inserted"
     when
         $transaction: Transaction()
         $writer: Writer(
             !ValidationUtils.isNullOrEmpty(memory)
         ) from $transaction.writers
     then
-        System.out.println("A Writer with a not empty firstName inserted -> " + $writer);
+        System.out.println("A Writer with a not empty memory inserted -> " + $writer);
         insert(new WriterInserted($writer));
 end
 
-rule "remove A Writer firstName is empty"
+rule "remove A Writer memory is empty"
     when
         $writer: WriterInserted(
             !ValidationUtils.isNullOrEmpty(writer.memory)

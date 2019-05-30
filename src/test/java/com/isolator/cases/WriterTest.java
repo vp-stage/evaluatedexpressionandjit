@@ -25,14 +25,14 @@ class WriterTest {
     private KieSession kSession;
 
     @BeforeEach
-    void configSessionOld() {
+    void configSession() {
         // load up the knowledge base
         KieContainer kcontainer = KieServices.Factory.get().getKieClasspathContainer();
         KieBaseConfiguration kbaseConfig = KieServices.Factory.get().newKieBaseConfiguration();
 
         // disable JITTING in test as we get exceptions with masking static method invocations
         // such as ValidationUtils.isNullOrEmpty(interestedPartyNumber)
-//        kbaseConfig.setOption(ConstraintJittingThresholdOption.get(-1));
+        // kbaseConfig.setOption(ConstraintJittingThresholdOption.get(-1));
         kbaseConfig.setOption(ConstraintJittingThresholdOption.get(0));
 
         KieBase kbase = kcontainer.newKieBase("rules", kbaseConfig);
@@ -43,9 +43,9 @@ class WriterTest {
     }
 
 
-    private void insertTransactionWithWritersAndFire(String stringValue) {
+    private void insertTransactionWithWritersAndFire(String testName) {
         List<Writer> writers = IntStream.range(0, 50)
-                .mapToObj(i -> new Writer(i, " free memory: " + Runtime.getRuntime().freeMemory()))
+                .mapToObj(i -> new Writer(i, testName, "free memory: " + Runtime.getRuntime().freeMemory()))
                 .collect(Collectors.toList());
         Transaction transaction = new Transaction(writers);
 
