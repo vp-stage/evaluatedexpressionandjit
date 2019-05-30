@@ -11,6 +11,10 @@ import org.kie.api.runtime.KieSessionConfiguration;
 import org.kie.api.runtime.conf.ClockTypeOption;
 import org.kie.internal.conf.ConstraintJittingThresholdOption;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -19,15 +23,6 @@ import static org.junit.Assert.assertTrue;
 class WriterTest {
 
     private KieSession kSession;
-
-    //@BeforeEach
-    //void configSession() {
-    //    // load up the knowledge base
-    //    KieServices ks = KieServices.Factory.get();
-    //    KieContainer kContainer = ks.getKieClasspathContainer();
-    //    kSession = kContainer.newKieSession("ksession-rules");
-    //    list = new Vector();
-    //}
 
     @BeforeEach
     void configSessionOld() {
@@ -48,118 +43,119 @@ class WriterTest {
     }
 
 
-    private void doStuff(String stringValue) {
-        for (int i = 0; i < 50; i++) {
-            kSession.insert(
-                    new Writer(i, " free memory: " + Runtime.getRuntime().freeMemory())
-            );
-            kSession.fireAllRules();
-        }
+    private void insertTransactionWithWritersAndFire(String stringValue) {
+        List<Writer> writers = IntStream.range(0, 50)
+                .mapToObj(i -> new Writer(i, " free memory: " + Runtime.getRuntime().freeMemory()))
+                .collect(Collectors.toList());
+        Transaction transaction = new Transaction(writers);
+
+        kSession.insert(transaction);
+        kSession.fireAllRules();
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace00() {
-        doStuff("testEvaluatedExpresionAndJITonRace00");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace00");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace01() {
-        doStuff("testEvaluatedExpresionAndJITonRace01");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace01");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace02() {
-        doStuff("testEvaluatedExpresionAndJITonRace02");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace02");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace03() {
-        doStuff("testEvaluatedExpresionAndJITonRace03");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace03");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace04() {
-        doStuff("testEvaluatedExpresionAndJITonRace04");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace04");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace05() {
-        doStuff("testEvaluatedExpresionAndJITonRace05");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace05");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace06() {
-        doStuff("testEvaluatedExpresionAndJITonRace06");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace06");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace07() {
-        doStuff("testEvaluatedExpresionAndJITonRace07");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace07");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace08() {
-        doStuff("testEvaluatedExpresionAndJITonRace08");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace08");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace09() {
-        doStuff("testEvaluatedExpresionAndJITonRace09");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace09");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace10() {
-        doStuff("testEvaluatedExpresionAndJITonRace10");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace10");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace11() {
-        doStuff("testEvaluatedExpresionAndJITonRace11");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace11");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace12() {
-        doStuff("testEvaluatedExpresionAndJITonRace12");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace12");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace13() {
-        doStuff("testEvaluatedExpresionAndJITonRace13");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace13");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace14() {
-        doStuff("testEvaluatedExpresionAndJITonRace14");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace14");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace15() {
-        doStuff("testEvaluatedExpresionAndJITonRace15");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace15");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace16() {
-        doStuff("testEvaluatedExpresionAndJITonRace16");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace16");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace17() {
-        doStuff("testEvaluatedExpresionAndJITonRace17");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace17");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace18() {
-        doStuff("testEvaluatedExpresionAndJITonRace18");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace18");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace19() {
-        doStuff("testEvaluatedExpresionAndJITonRace19");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace19");
     }
 
     @Test
     void testEvaluatedExpresionAndJITonRace20() {
-        doStuff("testEvaluatedExpresionAndJITonRace20");
+        insertTransactionWithWritersAndFire("testEvaluatedExpresionAndJITonRace20");
     }
 
     /**
